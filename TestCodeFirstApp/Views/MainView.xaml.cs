@@ -23,5 +23,6 @@ namespace TestCodeFirstApp.Views
         {
             InitializeComponent();
         }
+
     }
 }

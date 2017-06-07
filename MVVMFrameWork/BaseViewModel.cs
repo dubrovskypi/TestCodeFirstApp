@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MVVMFrameWork
 {
-    public class BaseViewModel : INotifyPropertyChanged, IDisposable
+    public class BaseViewModel : NotifyObject, IDisposable
     {
         private BaseViewModel _parent;
         private string _title;
@@ -40,13 +40,6 @@ namespace MVVMFrameWork
         {
             Parent = parent;
             Title = title;
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName]string prop = "")
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
         }
 
         public virtual void Dispose()
