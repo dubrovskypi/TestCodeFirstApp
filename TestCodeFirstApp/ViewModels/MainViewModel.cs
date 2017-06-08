@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using TestCodeFirstApp.Models;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace TestCodeFirstApp.ViewModels
 {
@@ -24,10 +26,19 @@ namespace TestCodeFirstApp.ViewModels
             }
         }
 
+        private ObservableCollection<Customer> _customersCollection;
+        public ObservableCollection<Customer> CustomersCollection
+        {
+            get { return _customersCollection; }
+            set
+            {
+                _customersCollection = value; 
+                OnPropertyChanged();
+            }
+        }
+
         #region Comands
         private DelegateCommand _addCommand;
-
-
         public DelegateCommand AddCommand
         {
             get
@@ -45,6 +56,25 @@ namespace TestCodeFirstApp.ViewModels
 
                         // Сохранить изменения в БД
                         context.SaveChanges();
+                    }));
+            }
+        }
+
+        private DelegateCommand _loadCommand;
+        public DelegateCommand LoadCommand
+        {
+            get
+            {
+                return _loadCommand ??
+                    (_loadCommand = new DelegateCommand(() =>
+                    {
+                        CustomersCollection = new ObservableCollection<Customer>();
+                        //Создать объект контекста
+                        using (var context = new SampleContext())
+                        {
+                            context.Customers.Load();
+                            CustomersCollection = context.Customers.Local;
+                        }
                     }));
             }
         }

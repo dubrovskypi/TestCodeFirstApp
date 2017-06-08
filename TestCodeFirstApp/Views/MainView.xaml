@@ -9,7 +9,7 @@
     <Window.Resources>
     </Window.Resources>
     <StackPanel>
-        <DataGrid AutoGenerateColumns="False" EnableRowVirtualization="True" Height="200"  Width="300" RowDetailsVisibilityMode="VisibleWhenSelected">
+        <DataGrid AutoGenerateColumns="False" EnableRowVirtualization="True" Height="200"  Width="300" RowDetailsVisibilityMode="VisibleWhenSelected" ItemsSource="{Binding CustomersCollection}">
             <DataGrid.Columns>
                 <DataGridTextColumn x:Name="ageColumn" Binding="{Binding Age}" Header="Age" Width="SizeToHeader"/>
                 <DataGridTextColumn x:Name="customerIdColumn" Binding="{Binding CustomerId}" Header="Customer Id" Width="SizeToHeader"/>
@@ -17,7 +17,11 @@
                 <DataGridTextColumn x:Name="nameColumn" Binding="{Binding Name}" Header="Name" Width="SizeToHeader"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Content="add" Width="100" Command="{Binding AddCommand}"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="load" Width="100" Command="{Binding LoadCommand}" />
+            <Button Content="add" Width="100" Command="{Binding AddCommand}" />  
+        </StackPanel>
+
         <Grid HorizontalAlignment="Center" VerticalAlignment="Top">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
