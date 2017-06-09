@@ -82,8 +82,9 @@ namespace TestCodeFirstApp.ViewModels
 
         public MainViewModel() : base()
         {
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<SampleContext>());
-
+            //Database.SetInitializer(new DropCreateDatabaseIfModelChanges<SampleContext>());
+            var _CONNECTIONSTRING = new SqlConnectionStringBuilder();
+            var cs =_CONNECTIONSTRING.ConnectionString;
             NewCustomer = new Customer
             {
                 Age = 99,
