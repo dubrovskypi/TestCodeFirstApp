@@ -69,6 +69,7 @@ namespace TestCodeFirstApp.ViewModels
                     (_loadCommand = new DelegateCommand(() =>
                     {
                         CustomersCollection = new ObservableCollection<Customer>();
+                        DB.CreateDatabase();
                         //Создать объект контекста
                         using (var context = new SampleContext())
                         {

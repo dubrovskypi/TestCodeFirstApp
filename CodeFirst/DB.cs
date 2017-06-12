@@ -38,8 +38,13 @@ namespace CodeFirst
 
         public static void CreateDatabase()
         {
-            var init = new DBInitializer();
-            init.InitializeDatabase();
+            using (var context = new SampleContext(ConnectionString))
+            {
+                var init = new DBInitializer();
+                init.InitializeDatabase(context);
+            }
         }
+
+
     }
 }
