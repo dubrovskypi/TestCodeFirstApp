@@ -48,8 +48,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomRepository.cs" />
     <Compile Include="DB.cs" />
     <Compile Include="DBInitializer.cs" />
+    <Compile Include="IRepository.cs" />
     <Compile Include="Model.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SampleContext.cs" />

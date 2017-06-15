@@ -10,31 +10,31 @@ namespace CodeFirst
 {
     public static class DB
     {
-        private static SqlConnectionStringBuilder _CONNECTIONSTRING = new SqlConnectionStringBuilder()
+        private static SqlConnectionStringBuilder _connStringBuilder = new SqlConnectionStringBuilder()
         {
             DataSource = "(LocalDB)\\MSSQLLocalDB",
             InitialCatalog = "MyTestDB",
-            //IntegratedSecurity = true,
-            //Pooling = false
+            IntegratedSecurity = true,
+            Pooling = false
         };
 
         public static string ConnectionString
         {
-            get { return _CONNECTIONSTRING.ConnectionString; }
-            set { _CONNECTIONSTRING = new SqlConnectionStringBuilder(value); }
+            get { return _connStringBuilder.ConnectionString; }
+            set { _connStringBuilder = new SqlConnectionStringBuilder(value); }
         }
 
-        private static SqlConnection _connection;
-        public static SqlConnection Connection
-        {
-            get
-            {
-                return _connection ?? (_connection = new SqlConnection()
-                {
-                    ConnectionString = ConnectionString
-                });
-            }
-        }
+        //private static SqlConnection _connection;
+        //public static SqlConnection Connection
+        //{
+        //    get
+        //    {
+        //        return _connection ?? (_connection = new SqlConnection()
+        //        {
+        //            ConnectionString = ConnectionString
+        //        });
+        //    }
+        //}
 
         public static void CreateDatabase()
         {

@@ -10,6 +10,7 @@ using System.Data.SqlClient;
 using TestCodeFirstApp.Models;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Configuration;
 
 namespace TestCodeFirstApp.ViewModels
 {
@@ -83,9 +84,8 @@ namespace TestCodeFirstApp.ViewModels
 
         public MainViewModel() : base()
         {
-            //Database.SetInitializer(new DropCreateDatabaseIfModelChanges<SampleContext>());
-            var _CONNECTIONSTRING = new SqlConnectionStringBuilder();
-            var cs =_CONNECTIONSTRING.ConnectionString;
+            DB.ConnectionString = ConfigurationManager.ConnectionStrings["MyShop"].ConnectionString; ;
+            DB.CreateDatabase();
             NewCustomer = new Customer
             {
                 Age = 99,

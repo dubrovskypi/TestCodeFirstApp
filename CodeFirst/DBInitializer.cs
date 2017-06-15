@@ -22,6 +22,8 @@ namespace CodeFirst
             };
             context.Customers.Add(defCustomer);
             context.SaveChanges();
+
+            base.Seed(context);
         }
     }
 }
