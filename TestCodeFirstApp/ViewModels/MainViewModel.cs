@@ -84,8 +84,9 @@ namespace TestCodeFirstApp.ViewModels
 
         public MainViewModel() : base()
         {
-            DB.ConnectionString = ConfigurationManager.ConnectionStrings["MyShop"].ConnectionString; ;
-            DB.CreateDatabase();
+            //DB.ConnectionString = ConfigurationManager.ConnectionStrings["MyShop"].ConnectionString; ;
+            //DB.CreateDatabase();
+            var sc2 = new SampleContext(DB.ConnectionString);
             NewCustomer = new Customer
             {
                 Age = 99,
@@ -95,6 +96,8 @@ namespace TestCodeFirstApp.ViewModels
                 Orders = null,
                 Photo = null
             };
+            
+            sc2.Customers.Add(NewCustomer);
         }
 
         //public MainViewModel(BaseViewModel parent, string title = null):base(parent,title)
