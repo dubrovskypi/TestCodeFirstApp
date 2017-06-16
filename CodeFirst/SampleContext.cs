@@ -10,12 +10,12 @@ namespace CodeFirst
 {
     public class SampleContext : DbContext
     {
-        //public SampleContext() : base(ConfigurationManager.ConnectionStrings["MyShop"].ConnectionString)
-        public SampleContext() : base()
+        public SampleContext() : base(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString)
+        //public SampleContext() : base()
         {
-            Database.SetInitializer<SampleContext>(new DBInitializer());
-            var cs = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            Database.Connection.ConnectionString = cs;
+            //Database.SetInitializer<SampleContext>(new DBInitializer());
+            //var cs = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            //Database.Connection.ConnectionString = cs;
         }
 
         public SampleContext(string conStr): base (conStr)

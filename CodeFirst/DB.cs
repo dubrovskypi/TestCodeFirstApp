@@ -36,14 +36,14 @@ namespace CodeFirst
         //    }
         //}
 
-        public static void CreateDatabase()
-        {
-            using (var context = new SampleContext(ConnectionString))
-            {
-                var init = new DBInitializer();
-                init.InitializeDatabase(context);
-            }
-        }
+        //public static void CreateDatabase()
+        //{
+        //    using (var context = new SampleContext(ConnectionString))
+        //    {
+        //        var init = new DBInitializer();
+        //        init.InitializeDatabase(context);
+        //    }
+        //}
 
 
     }

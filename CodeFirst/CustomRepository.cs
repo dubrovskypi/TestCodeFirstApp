@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,11 +15,27 @@ namespace CodeFirst
         public CustomRepository()
         {
             this._db = new SampleContext();
+            InitDB();
         }
 
         public CustomRepository(SampleContext ctx)
         {
             this._db = ctx;
+            InitDB();
+        }
+
+        private void InitDB()
+        {
+            try
+            {
+                var init = new DBInitializer();
+                init.InitializeDatabase(this._db);
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+
         }
 
         public IEnumerable<Customer> GetItems()
@@ -31,21 +48,21 @@ namespace CodeFirst
             return _db.Customers.Find(id);
         }
 
-        public void Create(Customer book)
+        public void Create(Customer customer)
         {
-            _db.Customers.Add(book);
+            _db.Customers.Add(customer);
         }
 
-        public void Update(Customer book)
+        public void Update(Customer customer)
         {
-            _db.Entry(book).State = EntityState.Modified;
+            _db.Entry(customer).State = EntityState.Modified;
         }
 
         public void Delete(int id)
         {
-            Customer book = _db.Customers.Find(id);
-            if (book != null)
-                _db.Customers.Remove(book);
+            Customer customer = _db.Customers.Find(id);
+            if (customer != null)
+                _db.Customers.Remove(customer);
         }
 
         public void Save()

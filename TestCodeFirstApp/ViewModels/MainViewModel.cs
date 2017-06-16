@@ -16,6 +16,8 @@ namespace TestCodeFirstApp.ViewModels
 {
     public class MainViewModel: BaseViewModel
     {
+        private CustomRepository repository;
+
         private Customer _newCustomer;
         public Customer NewCustomer
         {
@@ -47,16 +49,8 @@ namespace TestCodeFirstApp.ViewModels
                 return _addCommand ??
                     (_addCommand = new DelegateCommand(() =>
                     {
-
-                        //Создать объект контекста
-                       var context = new SampleContext();
-                        
-
-                        // Вставить данные в таблицу Customers с помощью LINQ
-                        context.Customers.Add(NewCustomer);
-
-                        // Сохранить изменения в БД
-                        context.SaveChanges();
+                        repository.Create(NewCustomer);
+                        repository.Save();
                     }));
             }
         }
@@ -69,14 +63,13 @@ namespace TestCodeFirstApp.ViewModels
                 return _loadCommand ??
                     (_loadCommand = new DelegateCommand(() =>
                     {
-                        CustomersCollection = new ObservableCollection<Customer>();
-                        DB.CreateDatabase();
-                        //Создать объект контекста
-                        using (var context = new SampleContext())
-                        {
-                            context.Customers.Load();
-                            CustomersCollection = context.Customers.Local;
-                        }
+                        CustomersCollection = new ObservableCollection<Customer>(repository.GetItems());
+
+                        //using (var context = new SampleContext())
+                        //{
+                        //    context.Customers.Load();
+                        //    CustomersCollection = context.Customers.Local;
+                        //}
                     }));
             }
         }
@@ -84,9 +77,8 @@ namespace TestCodeFirstApp.ViewModels
 
         public MainViewModel() : base()
         {
-            //DB.ConnectionString = ConfigurationManager.ConnectionStrings["MyShop"].ConnectionString; ;
-            //DB.CreateDatabase();
-            var sc2 = new SampleContext(DB.ConnectionString);
+            repository = new CustomRepository();
+
             NewCustomer = new Customer
             {
                 Age = 99,
@@ -96,8 +88,6 @@ namespace TestCodeFirstApp.ViewModels
                 Orders = null,
                 Photo = null
             };
-            
-            sc2.Customers.Add(NewCustomer);
         }
 
         //public MainViewModel(BaseViewModel parent, string title = null):base(parent,title)
@@ -113,6 +103,10 @@ namespace TestCodeFirstApp.ViewModels
         //    };
         //}
 
-        
+        public override void Dispose()
+        {
+            repository.Dispose();
+            base.Dispose();
+        }
     }
 }
