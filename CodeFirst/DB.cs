@@ -12,11 +12,17 @@ namespace CodeFirst
     {
         private static SqlConnectionStringBuilder _connStringBuilder = new SqlConnectionStringBuilder()
         {
-            DataSource = "(LocalDB)\\MSSQLLocalDB",
-            InitialCatalog = "MyTestDB",
+            DataSource = "(LocalDB)\\MSSQLLocalDB", //server
+            InitialCatalog = "MyTestDB", //DB name
             IntegratedSecurity = true,
-            Pooling = false
-        };
+            Pooling = false,
+            PersistSecurityInfo = false,
+            MultipleActiveResultSets = true,
+            ApplicationName = "EntityFramework",
+            //UserID = "AxisG",
+            //Password = "POLIapplehouse93",
+
+    };
 
         public static string ConnectionString
         {

@@ -11,6 +11,7 @@ using TestCodeFirstApp.Models;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Configuration;
+using System.Windows;
 
 namespace TestCodeFirstApp.ViewModels
 {
@@ -49,9 +50,31 @@ namespace TestCodeFirstApp.ViewModels
                 return _addCommand ??
                     (_addCommand = new DelegateCommand(() =>
                     {
-                        repository.Create(NewCustomer);
-                        repository.Save();
-                    }));
+                        try
+                        {
+                            repository.Create(NewCustomer);
+                            repository.Save();
+
+                            CustomersCollection = new ObservableCollection<Customer>(repository.GetItems());
+
+                            //newCustomer
+                            NewCustomer = new Customer
+                            {
+                                Age = new Random().Next(20, 90),
+                                CustomerId = Guid.NewGuid(),
+                                Email = "email",
+                                Name = "NameC",
+                                Orders = null,
+                                Photo = null
+                            };
+
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message, "Custom Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+
+                    }, () => repository != null));
             }
         }
 
@@ -63,13 +86,36 @@ namespace TestCodeFirstApp.ViewModels
                 return _loadCommand ??
                     (_loadCommand = new DelegateCommand(() =>
                     {
-                        CustomersCollection = new ObservableCollection<Customer>(repository.GetItems());
+                        try
+                        {
+                            var customers = repository.GetItems();
+                            if (customers != null) CustomersCollection = new ObservableCollection<Customer>(customers);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message, "Custom Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                    }, () => repository != null));
+            }
+        }
 
-                        //using (var context = new SampleContext())
-                        //{
-                        //    context.Customers.Load();
-                        //    CustomersCollection = context.Customers.Local;
-                        //}
+        private DelegateCommand _createDBCommand;
+        public DelegateCommand CreateDBCommand
+        {
+            get
+            {
+                return _createDBCommand ??
+                    (_createDBCommand = new DelegateCommand(() =>
+                    {
+                        try
+                        {
+                            //repository = new CustomRepository();
+                            repository = new CustomRepository(new SampleContext(DB.ConnectionString));
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message, "Custom Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
                     }));
             }
         }
@@ -77,11 +123,11 @@ namespace TestCodeFirstApp.ViewModels
 
         public MainViewModel() : base()
         {
-            repository = new CustomRepository();
+            //repository = new CustomRepository();
 
             NewCustomer = new Customer
             {
-                Age = 99,
+                Age = new Random().Next(20,90),
                 CustomerId = Guid.NewGuid(),
                 Email = "email",
                 Name = "NameC",
@@ -89,19 +135,6 @@ namespace TestCodeFirstApp.ViewModels
                 Photo = null
             };
         }
-
-        //public MainViewModel(BaseViewModel parent, string title = null):base(parent,title)
-        //{
-        //    NewCustomer = new Customer
-        //    {
-        //        Age = 10,
-        //        CustomerId = 20,
-        //        Email = "email",
-        //        Name = "NameC",
-        //        Orders = null,
-        //        Photo = null
-        //    };
-        //}
 
         public override void Dispose()
         {
