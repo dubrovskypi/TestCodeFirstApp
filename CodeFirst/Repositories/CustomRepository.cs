@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
+using CodeFirst.Contextes;
+using CodeFirst.Entities;
+using CodeFirst.Interfaces;
 
-namespace CodeFirst
+namespace CodeFirst.Repositories
 {
     public class CustomRepository : IRepository<Customer>
     {
@@ -15,28 +14,29 @@ namespace CodeFirst
         public CustomRepository()
         {
             this._db = new SampleContext();
-            InitDB();
+            //InitDB();
         }
 
         public CustomRepository(SampleContext ctx)
         {
             this._db = ctx;
-            InitDB();
+            //InitDB();
         }
 
-        private void InitDB()
-        {
-            try
-            {
-                var init = new DBInitializer();
-                init.InitializeDatabase(this._db);
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
+        //переделать
+        //private void InitDB()
+        //{
+        //    try
+        //    {
+        //        var init = new DBInitializer();
+        //        init.InitializeDatabase(this._db);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw new Exception(e.Message);
+        //    }
 
-        }
+        //}
 
         public IEnumerable<Customer> GetItems()
         {

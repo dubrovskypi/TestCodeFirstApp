@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CodeFirst
+namespace CodeFirst.Interfaces
 {
     public interface IRepository<T> : IDisposable where T : class
     {

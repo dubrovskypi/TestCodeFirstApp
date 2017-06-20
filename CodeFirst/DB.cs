@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CodeFirst.Contextes;
 
 namespace CodeFirst
 {
@@ -22,7 +23,7 @@ namespace CodeFirst
             //UserID = "AxisG",
             //Password = "POLIapplehouse93",
 
-    };
+        };
 
         public static string ConnectionString
         {
@@ -42,14 +43,23 @@ namespace CodeFirst
         //    }
         //}
 
-        //public static void CreateDatabase()
-        //{
-        //    using (var context = new SampleContext(ConnectionString))
-        //    {
-        //        var init = new DBInitializer();
-        //        init.InitializeDatabase(context);
-        //    }
-        //}
+        public static void CreateDatabase()
+        {
+            try
+            {
+                using (var context = new SampleContext(ConnectionString))
+                {
+                    var init = new DBInitializer();
+                    init.InitializeDatabase(context);
+                }
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
+        }
+
+
 
 
     }

@@ -12,6 +12,9 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Configuration;
 using System.Windows;
+using CodeFirst.Contextes;
+using CodeFirst.Entities;
+using CodeFirst.Repositories;
 
 namespace TestCodeFirstApp.ViewModels
 {
@@ -110,6 +113,7 @@ namespace TestCodeFirstApp.ViewModels
                         try
                         {
                             //repository = new CustomRepository();
+                            //DB.CreateDatabase();
                             repository = new CustomRepository(new SampleContext(DB.ConnectionString));
                         }
                         catch (Exception ex)
