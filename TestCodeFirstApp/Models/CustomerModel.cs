@@ -10,15 +10,19 @@ using MVVMFrameWork;
 
 namespace TestCodeFirstApp.Models
 {
-    public class CustomerModel : Customer, INotifyPropertyChanged
+    public class CustomerModel : NotifyObject
     {
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName]string prop = "")
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
-        }
+        public Guid CustomerId { get; set; }
 
+        public string Name { get; set; }
+
+        public string Email { get; set; }
+
+        public int Age { get; set; }
+
+        public byte[] Photo { get; set; }
+
+        public virtual List<Order> Orders { get; set; }
     }
 }

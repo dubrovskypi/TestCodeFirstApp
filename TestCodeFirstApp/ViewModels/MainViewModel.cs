@@ -20,7 +20,7 @@ namespace TestCodeFirstApp.ViewModels
 {
     public class MainViewModel: BaseViewModel
     {
-        private CustomRepository repository;
+        private CustomRepository _repository;
 
         private Customer _newCustomer;
         public Customer NewCustomer
@@ -55,10 +55,10 @@ namespace TestCodeFirstApp.ViewModels
                     {
                         try
                         {
-                            repository.Create(NewCustomer);
-                            repository.Save();
+                            _repository.Create(NewCustomer);
+                            _repository.Save();
 
-                            CustomersCollection = new ObservableCollection<Customer>(repository.GetItems());
+                            CustomersCollection = new ObservableCollection<Customer>(_repository.GetItems());
 
                             //newCustomer
                             NewCustomer = new Customer
@@ -77,7 +77,7 @@ namespace TestCodeFirstApp.ViewModels
                             MessageBox.Show(ex.Message, "Custom Error", MessageBoxButton.OK, MessageBoxImage.Error);
                         }
 
-                    }, () => repository != null));
+                    }, () => _repository != null));
             }
         }
 
@@ -91,14 +91,14 @@ namespace TestCodeFirstApp.ViewModels
                     {
                         try
                         {
-                            var customers = repository.GetItems();
+                            var customers = _repository.GetItems();
                             if (customers != null) CustomersCollection = new ObservableCollection<Customer>(customers);
                         }
                         catch (Exception ex)
                         {
                             MessageBox.Show(ex.Message, "Custom Error", MessageBoxButton.OK, MessageBoxImage.Error);
                         }
-                    }, () => repository != null));
+                    }, () => _repository != null));
             }
         }
 
@@ -112,9 +112,11 @@ namespace TestCodeFirstApp.ViewModels
                     {
                         try
                         {
-                            //repository = new CustomRepository();
-                            //DB.CreateDatabase();
-                            repository = new CustomRepository(new SampleContext(DB.ConnectionString));
+                            DB.TestConnection(DB.ConnectionString);
+
+                            if (!DB.DatabaseExists(DB.ConnectionString))
+                                DB.CreateDatabase();
+                            _repository = DB.CreateRepository();
                         }
                         catch (Exception ex)
                         {
@@ -127,8 +129,6 @@ namespace TestCodeFirstApp.ViewModels
 
         public MainViewModel() : base()
         {
-            //repository = new CustomRepository();
-
             NewCustomer = new Customer
             {
                 Age = new Random().Next(20,90),
@@ -142,7 +142,7 @@ namespace TestCodeFirstApp.ViewModels
 
         public override void Dispose()
         {
-            repository.Dispose();
+            _repository.Dispose();
             base.Dispose();
         }
     }

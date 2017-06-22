@@ -4,7 +4,7 @@ using CodeFirst.Entities;
 
 namespace CodeFirst.Contextes
 {
-    public class DBInitializer: DropCreateDatabaseAlways<SampleContext>
+    internal class DBInitializer: DropCreateDatabaseAlways<SampleContext>
     {
         protected override void Seed(SampleContext context)
         {

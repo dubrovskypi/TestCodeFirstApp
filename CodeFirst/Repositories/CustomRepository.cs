@@ -11,13 +11,13 @@ namespace CodeFirst.Repositories
     {
         private SampleContext _db;
 
-        public CustomRepository()
+        internal CustomRepository()
         {
             this._db = new SampleContext();
             //InitDB();
         }
 
-        public CustomRepository(SampleContext ctx)
+        internal CustomRepository(SampleContext ctx)
         {
             this._db = ctx;
             //InitDB();

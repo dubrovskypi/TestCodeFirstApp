@@ -6,6 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CodeFirst.Contextes;
+using CodeFirst.Entities;
+using CodeFirst.Interfaces;
+using CodeFirst.Repositories;
 
 namespace CodeFirst
 {
@@ -15,12 +18,16 @@ namespace CodeFirst
         {
             DataSource = "(LocalDB)\\MSSQLLocalDB", //server
             InitialCatalog = "MyTestDB", //DB name
-            IntegratedSecurity = true,
-            Pooling = false,
-            PersistSecurityInfo = false,
-            MultipleActiveResultSets = true,
-            ApplicationName = "EntityFramework",
-            //UserID = "AxisG",
+            //IntegratedSecurity = true,
+
+            //IntegratedSecurity = false,
+            //Pooling = false,
+            //PersistSecurityInfo = false,
+            //MultipleActiveResultSets = true,
+
+            //ApplicationName = "EntityFramework",
+            UserID = "Pasha",
+            Password = "1234",
             //Password = "POLIapplehouse93",
 
         };
@@ -31,17 +38,31 @@ namespace CodeFirst
             set { _connStringBuilder = new SqlConnectionStringBuilder(value); }
         }
 
-        //private static SqlConnection _connection;
-        //public static SqlConnection Connection
-        //{
-        //    get
-        //    {
-        //        return _connection ?? (_connection = new SqlConnection()
-        //        {
-        //            ConnectionString = ConnectionString
-        //        });
-        //    }
-        //}
+        private static SqlConnection _connection;
+        public static SqlConnection Connection
+        {
+            get
+            {
+                return _connection ?? (_connection = new SqlConnection()
+                {
+                    ConnectionString = ConnectionString
+                });
+            }
+        }
+
+        //выдает исключение если нельзя открыть соединение
+        public static void TestConnection(string connection)
+        {
+            Connection.ConnectionString = connection;
+            Connection.Open();
+            Connection.Close();
+            //var b = Database.Exists(ConnectionString);
+        }
+
+        public static bool DatabaseExists(string connection)
+        {
+            return Database.Exists(connection);
+        }
 
         public static void CreateDatabase()
         {
@@ -57,6 +78,11 @@ namespace CodeFirst
             {
                 throw new Exception(exception.Message);
             }
+        }
+
+        public static CustomRepository CreateRepository()
+        {
+            return new CustomRepository(new SampleContext(ConnectionString));;
         }
 
 

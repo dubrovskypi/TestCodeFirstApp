@@ -6,7 +6,7 @@ namespace CodeFirst.Contextes
 {
     public class SampleContext : DbContext
     {
-        public SampleContext() : base(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString)
+        internal SampleContext() : base(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString)
         //public SampleContext() : base()
         {
             //Database.SetInitializer<SampleContext>(new DBInitializer());
@@ -14,7 +14,7 @@ namespace CodeFirst.Contextes
             //Database.Connection.ConnectionString = cs;
         }
 
-        public SampleContext(string conStr): base (conStr)
+        internal SampleContext(string conStr): base (conStr)
         {
 
         }
