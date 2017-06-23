@@ -22,6 +22,18 @@ namespace TestCodeFirstApp.ViewModels
     {
         private CustomRepository _repository;
 
+        private BaseViewModel _connectionVM;
+        public BaseViewModel ConnectionVM
+        {
+            get { return _connectionVM; }
+            set
+            {
+                if (_connectionVM != null) _connectionVM.Dispose();
+
+                _connectionVM = value;
+            }
+        }
+
         private Customer _newCustomer;
         public Customer NewCustomer
         {
@@ -102,29 +114,29 @@ namespace TestCodeFirstApp.ViewModels
             }
         }
 
-        private DelegateCommand _createDBCommand;
-        public DelegateCommand CreateDBCommand
-        {
-            get
-            {
-                return _createDBCommand ??
-                    (_createDBCommand = new DelegateCommand(() =>
-                    {
-                        try
-                        {
-                            DB.TestConnection(DB.ConnectionString);
+        //private DelegateCommand _createDBCommand;
+        //public DelegateCommand CreateDBCommand
+        //{
+        //    get
+        //    {
+        //        return _createDBCommand ??
+        //            (_createDBCommand = new DelegateCommand(() =>
+        //            {
+        //                try
+        //                {
+        //                    DB.TestConnection(DB.ConnectionString);
 
-                            if (!DB.DatabaseExists(DB.ConnectionString))
-                                DB.CreateDatabase();
-                            _repository = DB.CreateRepository();
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show(ex.Message, "Custom Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        }
-                    }));
-            }
-        }
+        //                    if (!DB.DatabaseExists(DB.ConnectionString))
+        //                        DB.CreateDatabase();
+        //                    _repository = DB.CreateRepository();
+        //                }
+        //                catch (Exception ex)
+        //                {
+        //                    MessageBox.Show(ex.Message, "Custom Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        //                }
+        //            }));
+        //    }
+        //}
         #endregion
 
         public MainViewModel() : base()
@@ -138,10 +150,12 @@ namespace TestCodeFirstApp.ViewModels
                 Orders = null,
                 Photo = null
             };
+            ConnectionVM = new DatabaseConnectionViewModel(this);
         }
 
         public override void Dispose()
         {
+            ConnectionVM.Dispose();
             _repository.Dispose();
             base.Dispose();
         }

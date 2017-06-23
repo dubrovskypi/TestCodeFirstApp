@@ -68,8 +68,11 @@
     </Compile>
     <Compile Include="Models\ConnectionProperty.cs" />
     <Compile Include="Models\CustomerModel.cs" />
-    <Compile Include="ViewModels\DatabaseConnectionProperty.cs" />
+    <Compile Include="ViewModels\DatabaseConnectionViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="Views\DatabaseConnectionView.xaml.cs">
+      <DependentUpon>DatabaseConnectionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
@@ -103,6 +106,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\DatabaseConnectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -82,7 +82,7 @@ namespace CodeFirst
 
         public static CustomRepository CreateRepository()
         {
-            return new CustomRepository(new SampleContext(ConnectionString));;
+            return new CustomRepository(new SampleContext(ConnectionString));
         }
 
 
